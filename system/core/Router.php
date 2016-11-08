@@ -2,7 +2,7 @@
 
 /**
  * @author      OA Wu <comdan66@gmail.com>
- * @copyright   Copyright (c) 2015 OA Wu Design
+ * @copyright   Copyright (c) 2016 OA Wu Design
  */
 
 class Route {
@@ -68,6 +68,7 @@ class Route {
 		self::put ($prefix . implode ('/(:id)/', $uris) . '/(:id)', $prefix . $controller . '@update($1' . ($c > 1 ? ', ' . implode (', ', array_map (function ($a) { return '$' . $a; }, range (2, $c))) : '') . ')');
 		self::delete ($prefix . implode ('/(:id)/', $uris) . '/(:id)', $prefix . $controller . '@destroy($1' . ($c > 1 ? ', ' . implode (', ', array_map (function ($a) { return '$' . $a; }, range (2, $c))) : '') . ')');
 		self::post ($prefix . implode ('/(:id)/', $uris) . '/(:id)' .  '/sort/(:any)', $prefix . $controller . '@sort($1' . (', ' . implode (', ', array_map (function ($a) { return '$' . $a; }, range (2, $c + 1)))) . ')');
+		// self::get ($prefix . implode ('/(:id)/', $uris) . '/(:id)' .  '/show', $prefix . $controller . '@show($1' . ($c > 1 ? ', ' . implode (', ', array_map (function ($a) { return '$' . $a; }, range (2, $c))) : '') . ')');
 	}
 
 	public static function resourcePagination_is_enabled ($uris, $controller, $prefix = '') {
@@ -223,6 +224,7 @@ class CI_Router {
 
 		$request_method = isset ($_SERVER['REQUEST_METHOD']) ? strtolower ($_SERVER['REQUEST_METHOD']) : 'get';
 		$uri = implode ('/', $this->uri->segments) . '/';
+		$uri = str_replace ('-', '_', $uri);
 
 		if (isset ($this->routes[$request_method . ':' . $uri]) && is_string ($this->routes[$request_method . ':' . $uri]))
 			return $this->_set_request (explode ('/', $this->routes[$request_method . ':' . $uri]));

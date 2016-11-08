@@ -13,11 +13,11 @@ application/logs/*
 
 application/config/database.php
 
-temp/*
+/temp/*
 
-upload/*
-
-assets/*
+/upload/*
+/vendor/*
+/assets/*
 
 /cmd
 

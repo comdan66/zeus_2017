@@ -1,49 +1,58 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/*
-| -------------------------------------------------------------------------
-| URI ROUTING
-| -------------------------------------------------------------------------
-| This file lets you re-map URI requests to specific controller functions.
-|
-| Typically there is a one-to-one relationship between a URL string
-| and its corresponding controller class/method. The segments in a
-| URL normally follow this pattern:
-|
-|	example.com/class/method/id/
-|
-| In some instances, however, you may want to remap this relationship
-| so that a different class/function is called than the one
-| corresponding to the URL.
-|
-| Please see the user guide for complete details:
-|
-|	http://codeigniter.com/user_guide/general/routing.html
-|
-| -------------------------------------------------------------------------
-| RESERVED ROUTES
-| -------------------------------------------------------------------------
-|
-| There area two reserved routes:
-|
-|	$route['default_controller'] = 'welcome';
-|
-| This route indicates which controller class should be loaded if the
-| URI contains no data. In the above example, the "welcome" class
-| would be loaded.
-|
-|	$route['404_override'] = 'errors/page_missing';
-|
-| This route will tell the Router what URI segments to use if those provided
-| in the URL cannot be matched to a valid route.
-|
-*/
-// $route['404_override'] = '';
 
-// $route['default_controller'] = "main";
 Route::root ('main');
 
 // $route['admin'] = "admin/main";
 Route::get ('admin', 'admin/main@index');
+
+Route::get ('/login', 'platform@login');
+Route::get ('/logout', 'platform@logout');
+Route::get ('/platform/index', 'platform@login');
+Route::get ('/platform', 'platform@login');
+
+
+
+
+
+
+
+
+
+
+
+
+Route::group ('admin', function () {
+  Route::get ('/users/(:id)/show', 'users@show($1)');
+  Route::get ('/users/(:id)/show/(:any)', 'users@show($1, $2)');
+  Route::get ('/users/(:id)/show/(:any)/(:num)', 'users@show($1, $2, $3)');
+
+  Route::get ('/calendar', 'main@calendar');
+  Route::get ('/my', 'main@index');
+  Route::get ('/my/(:any)', 'main@index($1)');
+  Route::get ('/my/(:any)/(:num)', 'main@index($1, $2)');
+
+  Route::resourcePagination (array ('schedule_tags'), 'schedule_tags');
+  Route::resourcePagination (array ('users'), 'users');
+  Route::resourcePagination (array ('banners'), 'banners');
+  Route::resourcePagination (array ('promos'), 'promos');
+  Route::resourcePagination (array ('article_tags'), 'article_tags');
+  Route::resourcePagination (array ('articles'), 'articles');
+
+  Route::resourcePagination (array ('work_tags'), 'work_tags');
+  Route::resourcePagination (array ('tag', 'work_tags'), 'tag_work_tags');
+  Route::resourcePagination (array ('works'), 'works');
+  
+  Route::resourcePagination (array ('invoice_tags'), 'invoice_tags');
+  Route::resourcePagination (array ('invoice_contacts'), 'invoice_contacts');
+  Route::resourcePagination (array ('contact', 'invoice_contacts'), 'contact_invoice_contacts');
+  Route::resourcePagination (array ('invoices'), 'invoices');
+});
+
+Route::group ('api', function () {
+  Route::resource (array ('schedules'), 'schedules');
+  Route::resource (array ('schedule_tags'), 'schedule_tags');
+});
+
 
 // $route['main/index/(:num)/(:num)'] = "main/aaa/$1/$2";
 // Route::get ('main/index/(:num)/(:num)', 'main@aaa($1, $2)');

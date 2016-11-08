@@ -1,0 +1,146 @@
+/**
+ * @author      OA Wu <comdan66@gmail.com>
+ * @copyright   Copyright (c) 2016 OA Wu Design
+ */
+
+@import "_oa";
+
+.imgs_row {
+  @include clearfix();
+  
+  > * {
+    display: inline-block;
+    float: left;
+    width: 180px !important;
+    height: 150px !important;
+    margin: 10px;
+  }
+  > a {
+    border: 1px solid rgba(255, 0, 0, .3);
+    font-size: 30px;
+    border: 1px dashed rgba(85, 85, 85, 1.00);
+    @include opacity(.5);
+    @include border-radius(2px);
+    cursor: pointer;
+    @include transition(opacity .3s);
+    line-height: 150px;
+    text-align: center;
+    &:hover {
+      @include opacity(.75);
+    }
+  }
+  figure {
+    @include border-radius(2px);
+    overflow: hidden;
+  }
+  .drop_img {
+    a {
+      display: none;
+    }
+  }
+  figure, .drop_img:not(.no_cchoice) {
+    position: relative;
+    
+    a {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: inline-block !important;
+      width: 30px !important;
+      height: 30px !important;
+      line-height: 30px-2px !important;
+      font-weight: normal;
+      @include border-bottom-left-radius(2px);
+
+      border: 1px solid rgba(255, 255, 255, 1.00);
+      border-top: 0;
+      border-right: 0;
+      background-color: rgba(0, 0, 0, 1);
+      text-align: center;
+      color: rgba(255, 255, 255, 1.00);
+      cursor: pointer;
+      @include opacity(.5);
+      @include transition(opacity .3s);
+      
+      &:hover {
+        @include opacity(1);
+      }
+    }
+  }
+}
+.tags {
+  position: relative;
+  font-size: 13px;
+
+  .tag {
+    display: inline-block;
+    width: 300px;
+    margin: 10px;
+
+    label {
+      cursor: pointer;
+      @include overflow-docx3();
+
+      input[type='checkbox'] {
+        margin-top: 5px;
+        @include opacity(1);
+        position: relative;
+        z-index: auto;
+      }
+      &.main {
+        display: inline-block;
+        width: 100%;
+        font-weight: bold;
+      }
+      &.sub {
+        display: inline-block;
+        width: 100%;
+        margin-top: 10px;
+
+        &:before {
+          content: '-';
+          margin: 0 5px;
+          margin-left: 30px;
+        }
+
+        + .main {
+          margin-top: 10px;
+        } 
+      }
+    }
+  }
+}
+
+.bt, .bi, .bb {
+  + .bt, + .bi, + .bb {
+    margin-top: 5px;
+  }
+  @include clearfix();
+
+  input[type='text'] {
+    @include input;
+    float: left;
+    width: calc(100% - 50px - 10px) !important;
+  }
+  &.bi {
+    input[type='text'] {
+      margin-right: 10px;
+      &:nth-child(1) {
+        width: calc(35% - 25px - 5px - 5px) !important;
+      }
+      &:nth-child(2) {
+        width: calc(65% - 25px - 5px - 5px) !important;
+      }
+    }
+  }
+  button {
+    float: right;
+    width: 50px;
+    @include button('mazu2', false);
+    font-weight: normal;
+  }
+}
+.add_block {
+  @include button('mazu2', false);
+  font-weight: normal;
+}

@@ -5,24 +5,49 @@
  * @copyright   Copyright (c) 2016 OA Wu Design
  */
 
+if (!function_exists ('oa_url_encode')) {
+  function oa_url_encode ($str) {
+    return rawurlencode (preg_replace ('/[\/%]/', ' ', $str));
+  }
+}
+if (!function_exists ('remove_ckedit_tag')) {
+  function remove_ckedit_tag ($text) {
+    return preg_replace ("/\s+/", "", preg_replace ("/&#?[a-z0-9]+;/i", "", str_replace ('▼', '', str_replace ('▲', '', trim (strip_tags ($text))))));
+  }
+}
+
+if (!function_exists ('redirect_message')) {
+  function redirect_message ($uri, $datas) {
+    if (class_exists ('Session') && $datas)
+      foreach ($datas as $key => $data)
+        Session::setData ($key, $data, true);
+
+    return redirect ($uri, 'refresh');
+  }
+}
 if (!function_exists ('conditions')) {
-  function conditions (&$columns, &$configs, $model_name, $inputs = null) {
+  function conditions (&$columns, &$configs, $inputs = null) {
     $inputs = $inputs === null ? $_GET : $inputs;
+    $qs = $conditions = array ();
 
-    $strings = array_keys (array_filter ($columns, function ($column) { return in_array (strtolower ($column), array ('string', 'str', 'varchar', 'text')); }));
-    $columns = array_filter (array_combine ($columns = array_keys ($columns),array_map (function ($q) use ($inputs) { return isset ($inputs[$q]) ? $inputs[$q] : null; }, $columns)), function ($t) { return is_numeric ($t) ? true : $t; });
-    $conditions = array_slice ($columns, 0);
-    array_walk ($conditions, function (&$v, $k) { $v = $k . '=' . $v; });
-    $q_string = implode ('&amp;', $conditions);
+    foreach ($columns as &$column)
+      if ((isset ($inputs[$column['key']]) && ($inputs[$column['key']] !== '') && (($column['value'] = $inputs[$column['key']]) || (is_numeric ($column['value']) ? ($column['value'] = (int)$column['value']) || true : true))) || ($column['value'] = ''))
+        if (array_push ($qs, array ($column['key'], $column['value'])))
+          OaModel::addConditions ($conditions, $column['sql'], strpos (strtolower ($column['sql']), ' like ') !== false ? '%' . $column['value'] . '%' : $inputs[$column['key']]);
 
-    $conditions = array_slice ($columns, 0);
-    array_walk ($conditions, function (&$v, $k) use ($strings, $model_name) { $v = in_array ($k, $strings) ? ($k . ' LIKE ' . $model_name::escape ('%' . $v . '%')) : ($k . ' = ' . $model_name::escape ($v)); });
+    $qs = implode ('&amp;', array_map (function ($q) { return $q[0] . '=' . $q[1]; }, $qs));
 
     $configs = array (
         'uri_segment' => count ($configs),
-        'base_url' => base_url (array_merge ($configs, array ($q_string ? '?' . $q_string : '')))
+        'base_url' => base_url (array_merge ($configs, array ($qs ? '?' . $qs : '')))
       );
     return $conditions;
+  }
+}
+if (!function_exists ('res_url')) {
+  function res_url () {
+    $args = array_filter (func_get_args ());
+    return ENVIRONMENT == 'production' ? implode ('/', $args) : base_url ($args);
   }
 }
 if (!function_exists ('column_array')) {
@@ -218,5 +243,25 @@ if ( !function_exists ('make_click_able_links')) {
 if (!function_exists ('url_parse')) {
   function url_parse ($url, $key) {
     return ($url = parse_url ($url)) && isset ($url[$key]) ? $url[$key] : '';
+  }
+}
+if (!function_exists ('utf8_strrev')) {
+  function utf8_strrev ($str){
+    preg_match_all ('/./us', $str, $ar);
+    return implode ('', array_reverse ($ar[0]));
+  }
+}
+if (!function_exists ('mini_link')) {
+  function mini_link ($url, $maxLength = 0, $attributes = 'target="_blank"') {
+    return '<a href="' . $url . '" title="' . $url . '"' . ($attributes ? ' ' . $attributes : '') . '>' . ($maxLength > 0 && $maxLength < mb_strlen ($url) / 2 ? mb_strimwidth ($url, 0, $maxLength / 2, '','UTF-8') . '…'. utf8_strrev (mb_strimwidth (utf8_strrev ($url), 0, $maxLength / 2, '','UTF-8')) : $url) . '</a>';
+  }
+}
+if ( !function_exists ('make_click_enable_link')) {
+  function make_click_enable_link ($text, $maxLength = 0, $linkText = '', $attributes = 'target="_blank"') {
+    return preg_replace_callback ('/(https?:\/\/|\s+)[~\S]+/', function ($matches) use ($maxLength, $linkText, $attributes) {
+    $text = $linkText ? $linkText : $matches[0];
+      $text = $maxLength > 0 ? mb_strimwidth ($text, 0, $maxLength, '…','UTF-8') : $text;
+      return '<a href="' . $matches[0] . '"' . ($attributes ? ' ' . $attributes : '') . '>' . $text . '</a>';
+    }, $text);
   }
 }

@@ -4,3 +4,595 @@
  */
 
 @import "_oa";
+
+#container {
+  &.min {
+    @media screen and (min-width: 0) and (max-width: #{900px - 1px}) {
+      #main .panel .person {
+        .info {
+          width: 100%;
+          margin: 0 auto;
+        }
+        .datas {
+          margin-top: 20px;
+          @media screen and (min-width: 0) and (max-width: #{550 - 1px}) {
+            @for $i from 1 through 12 {
+              .chart.n#{$i} {
+                > div {
+                  > div {
+                    &:nth-child(-n+#{ceil($i / 2)}) {
+                      display: none;
+                    }
+                    width: calc(100% / #{floor($i / 2)});
+                  }
+                  &.lines {
+                    > div:nth-child(#{ceil($i / 2) + 1}) {
+                      &:before {
+                        display: none;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          .titles {
+            div {
+              @media screen and (min-width: 550px) and (max-width: #{655px - 1px}), screen and (min-width: 0) and (max-width: #{340px - 1px}) {
+                @include simple-transform(1, 20deg, 0, -8px, 0, 0, 0);
+              }
+            }
+          }
+        }
+      }
+    }
+    @media screen and (min-width: 900px) {
+      #main .panel .person {
+        @include clearfix();
+        > * {
+          float: left;
+          display: inline-block;
+        }
+        .info {
+          width: 270px;
+          padding: 0 10px;
+        }
+        .datas {
+          width: calc(100% - 270px);
+          padding-left: 40px;
+          padding-right: 10px;
+
+          .titles {
+            div {
+              @media screen and (min-width: 900px) and (max-width: #{1030px - 1px}) {
+                @include simple-transform(1, 20deg, 0, -8px, 0, 0, 0);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  &:not(.min) {
+    @media screen and (min-width: 0) and (max-width: #{1000px - 1px}) {
+      #main .panel .person {
+        .info {
+          width: 100%;
+          margin: 0 auto;
+        }
+        .datas {
+          margin-top: 20px;
+          @media screen and (min-width: 0) and (max-width: #{800px - 1px}) {
+            @for $i from 1 through 12 {
+              .chart.n#{$i} {
+                > div {
+                  > div {
+                    &:nth-child(-n+#{ceil($i / 2)}) {
+                      display: none;
+                    }
+                    width: calc(100% / #{floor($i / 2)});
+                  }
+                  &.lines {
+                    > div:nth-child(#{ceil($i / 2) + 1}) {
+                      &:before {
+                        display: none !important;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          .titles {
+            div {
+              @media screen and (min-width: 800px) and (max-width: #{850px - 1px}), screen and (min-width: 0) and (max-width: #{560px - 1px}) {
+                @include simple-transform(1, 20deg, 0, -8px, 0, 0, 0);
+              }
+            }
+          }
+        }
+      }
+    }
+    @media screen and (min-width: 1000px) {
+      #main .panel .person {
+        @include clearfix();
+        > * {
+          float: left;
+          display: inline-block;
+        }
+        .info {
+          width: 270px;
+          padding: 0 10px;
+        }
+        .datas {
+          width: calc(100% - 270px);
+          padding-left: 40px;
+          padding-right: 10px;
+          
+          @media screen and (min-width: 1000px) and (max-width: #{1100px - 1px}) {
+            @for $i from 1 through 12 {
+              .chart.n#{$i} {
+                > div {
+                  > div {
+                    &:nth-child(-n+#{ceil($i / 2)}) {
+                      display: none;
+                    }
+                    width: calc(100% / #{floor($i / 2)});
+                  }
+                  &.lines {
+                    > div:nth-child(#{ceil($i / 2) + 1}) {
+                      &:before {
+                        display: none !important;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          .titles {
+            div {
+              @media screen and (min-width: 1100px) and (max-width: #{1150px - 1px}) {
+                @include simple-transform(1, 20deg, 0, -8px, 0, 0, 0);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+#main .panel .person {
+  padding: 10px 5px;
+  a {
+    @include a;
+    &[class^="icon-"], &[class*=" icon-"] {
+      font-size: 16px;
+    }
+  }
+  .info {
+
+    .avatar {
+      position: relative;
+      margin: 0 auto;
+      display: inline-block;
+      width: 100%;
+      height: 250px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 1.00);
+      @include border-radius(2px);
+      @include box-shadow(0 0 1px rgba(0, 0, 0, .7));
+
+      figcaption {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        display: inline-block;
+        width: 100%;
+        padding: 5px;
+        @include opacity(0);
+      }
+    }
+    h1, h2 {
+      display: inline-block;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-size: 24px;
+      color: rgba(115, 135, 156, 1.00);
+    }
+    h1 {
+      margin-top: 20px;
+    }
+    h2 {
+      font-size: 20px;
+      margin-top: 40px;
+    }
+    label.checkbox {
+      display: inline-block;
+      width: 100%;
+      padding-left: 25px;
+      + .checkbox {
+        margin-top: 3px;
+      }
+    }
+    > span {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      padding-left: 20px;
+
+      font-size: 13px;
+      color: rgba(115, 135, 156, 1.00);
+      line-height: 18px;
+      word-break: break-all;
+      + span {
+        margin-top: 5px;
+      }
+      &:before {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 15px;
+        margin-right: 5px;
+        display: inline-block;
+        width: 15px;
+        text-align: center;
+      }
+    }
+  }
+  .datas {
+    h2 {
+      display: inline-block;
+      width: 100%;
+      background-color: rgba(245, 247, 250, 1.00);
+      margin: 0;
+      padding: 10px;
+      font-size: 20px;
+      color: rgba(115, 135, 156, 1.00);
+    }
+    .chart {
+      position: relative;
+      margin-top: 20px;
+      width: 100%;
+      height: 200px;
+      // background-color: rgba(0, 0, 255, 0.2);
+      // border: 1px solid rgba(255, 0, 0, .3);
+      @include clearfix();
+      
+      @for $i from 1 through 12 {
+        &.n#{$i} {
+          > div > div {
+            width: calc(100% / #{$i});
+            float: left;
+            display: inline-block;
+            text-align: center;
+          }
+        }
+      }
+
+
+      > div > div {
+      }
+      .lines {
+        height: calc(100% - 25px);
+        div {
+          position: relative;
+          display: inline-block;
+          height: 100%;
+
+          + div {
+            &:before {
+              content: '';
+              position: absolute;
+              left: 0;
+              top: 0;
+              display: inline-block;
+              width: 1px;
+              height: 100%;
+              border-left: 1px dashed rgba(210, 210, 210, 1.00);
+            }
+          }
+
+          > div {
+            display: inline-block;
+            position: absolute;
+            bottom: 0;
+            display: inline-block;
+            width: 15px;
+            height: calc(100% - 20px);
+            left: calc(50% - 15px / 2);
+            
+            @for $i from 0 through 100 {
+              &.n#{$i} {
+                &:before {
+                  height: calc(#{$i * 1%});
+                }
+                &:after {
+                  bottom: calc(#{$i * 1%} + 3px);
+                  @include opacity(1);
+                }
+              }
+            }
+
+            &:after, &:before {
+              position: absolute;
+              display: inline-block;
+            }
+            &:before {
+              content: '';
+              bottom: 0;
+              left: 0;
+              width: 100%;
+              height: 0;
+              background-color: rgba(38, 185, 154, 1.00);
+              @include transition(height .3s);
+            }
+            &:after {
+              content: attr(title);
+              bottom: 0;
+              left: 50%;
+              font-size: 10px;
+              width: 65px;
+              height: 15px;
+              left: calc((100% - 65px) / 2);
+              font-family: 'Helvetica Neue',Helvetica,Arial,'Hiragino Maru Gothic ProN','メイリオ','ヒラギノ丸ゴ ProN W4','微軟正黑體',Meiryo,'Droid Sans';
+              @include overflow-docx3();
+              @include text-shadow(0 0 1px rgba(255, 255, 255, 1));
+              @include opacity(0);
+              @include transition(opacity .3s, bottom .3s);
+            }
+          }
+        }
+      }
+      .titles {
+        border-top: 1px solid rgba(210, 210, 210, 1.00);
+        height: 25px;
+        line-height: 25px;
+        font-size: 13px;
+        font-family: 'Helvetica Neue',Helvetica,Arial,'Hiragino Maru Gothic ProN','メイリオ','ヒラギノ丸ゴ ProN W4','微軟正黑體',Meiryo,'Droid Sans';
+      }
+    }
+    .tabs_title {
+      position: relative;
+      margin-top: 20px;
+      display: inline-block;
+      width: 100%;
+      // border-bottom: 1px solid rgba(255, 0, 0, .3);
+      @include clearfix();
+      overflow: hidden;
+
+      &:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: rgba(221, 221, 221, 1.00);
+        z-index: 2;
+        @include box-shadow(0 0 3px rgba(0, 0, 0, .10));
+      }
+      
+      a {
+        position: relative;
+        float: left;
+        display: inline-block;
+        padding: 2px 5px;
+        margin-left: 5px;
+        cursor: pointer;
+        font-size: 13px;
+        border: 1px solid rgba(221, 221, 221, 1.00);
+        background-color: rgba(255, 255, 255, 1.00);
+        @include border-top-radius(2px);
+        z-index: 1;
+        color: rgba(100, 123, 149, 1.00);
+        // margin: 5px;
+        &.active {
+          z-index: 3;
+          border-bottom-color: rgba(255, 255, 255, 1.00);
+          color: rgba(85, 85, 85, 1.00);
+        }
+      }
+    }
+    .tabs_content {
+      padding: 15px;
+      padding-top: 20px;
+    }
+  }
+}
+.schedules {
+  padding-top: 0 !important;
+}
+.schedules .btns {
+  margin-top: 20px;
+  text-align: right;
+
+  button {
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: rgba(180, 180, 180, 1.00);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 2px 6px;
+    text-decoration: none;
+    @include border-radius(2px);
+    @include transition(background-color .3s, color .3s, border-color .3s);
+
+    &:hover {
+      background-color: rgba(245, 247, 250, 1.00);
+      color: rgba(160, 160, 160, 1.00);
+      border-color: rgba(230, 233, 237, 1.00);
+    }
+    &:focus {
+      outline: 0;
+    }
+  }
+}
+.schedules .highlight {
+  border: 1px solid rgba(255, 0, 0, .3);
+  display: inline-block;
+  width: 100%;
+  height: 100px;
+  border: 1px dashed rgba(228, 228, 228, 1.00);
+  margin-top: 20px;
+  padding-top: 20px;
+}
+
+.schedules .schedule {
+  position: relative;
+  $w: 60px;
+  padding: 10px 0;
+  padding-left: 15px;
+  margin-top: 20px;
+  padding-top: 20px;
+  background-color: rgba(255, 255, 255, 1.00);
+
+  + .schedule {
+    border-top: 1px dotted rgba(230, 230, 230, 1.00);
+  }
+
+  &.finished {
+    > h3, > span {
+      text-decoration: line-through;
+      @include opacity(.6);
+    }
+  }
+  > a, > label {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    cursor: pointer;
+
+    &.icon-e {
+      right: 25px;
+    }
+    &.tag {
+      right: auto;
+      left: -5px;
+      top: 28px;
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      @include border-radius(50%);
+    }
+  }
+
+  > label {
+    right: 50px;
+  }
+  > h3 {
+    margin: 0;
+    width: calc(100% - 75px);
+    font-size: 16px;
+    color: rgba(115, 135, 156, 1.00);
+    
+    cursor: move;
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+    
+    &:active {
+      cursor: grabbing;
+      cursor: -moz-grabbing;
+      cursor: -webkit-grabbing;
+    }
+  }
+  > span {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    padding: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 25px;
+    font-size: 14px;
+    margin-bottom: 0;
+    &.no {
+      display: none;
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 5px;
+      display: inline-block;
+      width: 5px;
+      height: calc(100% - 5px * 2);
+      background-color: rgba(238, 238, 238, 1.00);
+    }
+    p {
+      margin: 0;
+      + p {
+        margin-top: 6px;
+      }
+    }
+  }
+}
+.user_logs {
+  > time {
+    border-bottom: 1px dashed rgba(220, 220, 220, 1.00);
+    color: rgba(96, 96, 96, 1.00);
+    display: inline-block;
+    width: 100%;
+    padding: 5px;
+    font-size: 13px;
+    font-weight: bold;
+  }
+  > div {
+    $w: 30px;
+    padding: 5px 10px;
+    @include clearfix();
+
+    + time {
+      margin-top: 20px;
+    }
+    + div {
+      margin-top: 10px;
+    }
+    > div {
+      float: left;
+      display: inline-block;
+    }
+    > div:first-child {
+      width: $w;
+      height: $w;
+
+      text-align: center;
+      color: rgba(180, 180, 180, 1.00);
+      padding-top: 2px;
+    }
+    > div:last-child {
+      width: calc(100% - #{$w});
+      span {
+        display: inline-block;
+        width: 100%;
+        font-size: 13px;
+      }
+      .note {
+        color: rgba(72, 72, 72, 1.00);
+        time {
+          color: rgba(119, 119, 119, 1.00);
+        }
+      }
+      .desc {
+        color: rgba(128, 128, 128, 1.00);
+        font-style: italic;
+        padding: 10px 5px;
+        padding-left: 15px;
+        position: relative;
+        &:before {
+          content: '';
+          position: absolute;
+          left: 5px;
+          top: 5px;
+          display: inline-block;
+          width: 5px;
+          height: calc(100% - 5px * 2);
+          background-color: rgba(238, 238, 238, 1.00);
+        }
+      }
+    }
+  }
+}
